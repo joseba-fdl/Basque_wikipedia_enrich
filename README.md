@@ -1,19 +1,15 @@
 # Basque Wikipedia enrich
 Enriching Basque wikipedia entries with entities named in daily digital media.
 
-For that purpose, 
-
-Not only does this system creat written data for a low resourcerd language, but also includes entities related to the culture related with that language. Language is tightly related to culture, so generating culturally accurate data is as important as generating written data. 
-
-As each process could be independent from each other, the decission of spliting the two processes was made due to avoid secuencial errors and protect the data retrieval process.
+This repository contains a system on two stages. On the one hand the Data Mining module will handle the data collection from digital media and processing stage. On the other hand, the Data Visualization module, in order to visualize and publish the results in a useful way for Wikipedia editors. As each process could be independent from each other, the decission of spliting the two processes was made due to avoid secuencial errors and protect the data retrieval process.
 
 ### 1- Data Mining module - erauzlea.py 
+-Downloading News from online media.
+-Extraction of all the Named Entities from news.
 
-Media 
-
-### 2- Data Visualization module - bistaraketa.py
-
-Creation of a dataset 
+### 2- Data Visualization module - bistaraketa.py 
+-Comparison of the last NE with the previous ones via TF-IDF to choose the most prominent.
+-Weekly publication of the results on Wikipedia, adding media links to the entities.
 
 
 ## Language Dependent parts
