@@ -14,7 +14,7 @@ As each process could be independent from each other, the decission of spliting 
 
 
 
-Language Dependent parts
+## Language Dependent parts
 
 This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend  
 
