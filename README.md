@@ -1,5 +1,5 @@
 # Basque Wikipedia enrich
-Enriching Basque wikipedia entries with entities named in daily media.
+Enriching Basque wikipedia entries with entities named in daily digital media.
 
 For that purpose, 
 
