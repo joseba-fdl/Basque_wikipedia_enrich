@@ -1,4 +1,4 @@
 Three different corpuses will be located here:
-1- Data related to the media - komunikabide_corpusa.tsv
+1- Data extracted from the media RSS - komunikabide_corpusa.tsv
 2- Named Entities extracted from the media - termino_corpusa.tsv
 3- Most meaningful Named Entities from each week - ie_denak.tsv
