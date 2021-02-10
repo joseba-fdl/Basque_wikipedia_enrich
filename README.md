@@ -7,16 +7,18 @@ Not only does this system creat written data for a low resourcerd language, but 
 
 As each process could be independent from each other, the decission of spliting the two processes was made due to avoid secuencial errors and protect the data retrieval process.
 
-1- Data Retrieval module - erauzlea.py 
+### 1- Data Mining module - erauzlea.py 
 
-2- Data Mining module - bistaraketa.py
+Media 
 
+### 2- Data Visualization module - bistaraketa.py
 
+Creation of a dataset 
 
 
 ## Language Dependent parts
 
-This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend the same system to other minority languages. The system modification should take into account the following parts: 
+This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend the same system to other minority languages. The system modification should take into account the following parts, both in the Data Mining module (erauzlea.py): 
 
 *Media RSS feeds* - The RSS adresses have to be changed to the decided ones, preferably the ones related to media in a specific language.
 
