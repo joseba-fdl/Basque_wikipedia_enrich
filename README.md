@@ -16,7 +16,7 @@ As each process could be independent from each other, the decission of spliting 
 
 ## Language Dependent parts
 
-This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend  
+This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend the same system to other minority languages. The system modification should take into account the following parts: 
 
 *Media RSS feeds* - The RSS adresses have to be changed to the decided ones, preferably the ones related to media in a specific language.
 
