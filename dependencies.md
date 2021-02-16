@@ -24,6 +24,7 @@ pip install scattertext
 ### mwclient
 pip install mwclient
 
-## Other dependencies
+
+# Other dependencies
 -MSM Crawler: https://github.com/Elhuyar/MSM 
 
