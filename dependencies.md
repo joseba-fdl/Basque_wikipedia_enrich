@@ -15,7 +15,6 @@ pip install flair
 pip install syntok
 ### pywikibot
 pip install pywikibot
-create file: user-congig.py
 ### spacy
 pip install spacy
 ### requests 
