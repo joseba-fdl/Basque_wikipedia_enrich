@@ -34,6 +34,11 @@ Our system has originally been developed for Basque, although it can be adapted 
 + See [dependencies.md](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/dependencies.md) for a general description.
 + Python dependencies in the [requirements.txt file](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/requirements.txt)
 
+### Getting started
+
+python3 erauzlea.py
+python3 bistaraketa.py
+
 ## Contact
 
 Joseba Fernandez de Landa (joseba.fernandezdelanda@ehu.eus)
