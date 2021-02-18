@@ -1,4 +1,6 @@
-# Basque Wikipedia enrich
+# Semi-automatic generation of relevant articles for the Basque Wikipedia
+
+
 Enriching Basque wikipedia entries with entities named in daily digital media.
 
 This repository contains a system on two stages. On the one hand the Data Mining module will handle the data collection from digital media and processing stage. On the other hand, the Data Visualization module, in order to visualize and publish the results in a useful way for Wikipedia editors. As each process could be independent from each other, the decission of spliting the two processes was made due to avoid secuencial errors and protect the data retrieval process.
