@@ -1,0 +1,12 @@
+pandas
+DateTime
+bs4
+langdetect
+torch==1.3.0
+flair
+syntok
+pywikibot
+spacy
+requests
+scattertext
+mwclient
