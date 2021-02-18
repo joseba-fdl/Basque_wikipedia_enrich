@@ -1,25 +1,36 @@
-# Semi-automatic generation of relevant articles for the Basque Wikipedia
+## Semi-automatic generation of relevant articles for the Basque Wikipedia
 
 
 Enriching Basque wikipedia entries with entities named in daily digital media.
 
-This repository contains a system on two stages. On the one hand the Data Mining module will handle the data collection from digital media and processing stage. On the other hand, the Data Visualization module, in order to visualize and publish the results in a useful way for Wikipedia editors. As each process could be independent from each other, the decission of spliting the two processes was made due to avoid secuencial errors and protect the data retrieval process.
+Our system consists of two components:
 
-### 1- Data Mining module - erauzlea.py 
--Downloading News from online media.
--Extraction of all the Named Entities from news.
+1. erauzlea.py: data collection (news from online media) and processing (NER, lemmatization).
+2. bistaraketa.py: data visualization and publishing the results as Wikipedia template articles.
 
-### 2- Data Visualization module - bistaraketa.py 
--Comparison of the last NE with the previous ones via TF-IDF to choose the most prominent.
--Weekly publication of the results on Wikipedia, adding media links to the entities.
+Each process may work indepedently from the other, this avoids cascading errors and helps to protect the data retrieval process.
 
+### 1. Data Mining module - erauzlea.py
 
-## Language Dependent parts
++ Downloading News from online media.
++ Extraction of all the Named Entities from news. 
 
-This system was ensambled with the intention of being a helpful tool to induce written data generation on a low resourcered language scenario. Specyfically, the choosen language was Basque language but, the aim would be to extend the same system to other minority languages. The system modification should take into account the following parts, both in the Data Mining module (erauzlea.py): 
+### 2. Data Visualization module - bistaraketa.py
 
-*Media RSS feeds* - The RSS adresses have to be changed to the decided ones, preferably the ones related to media in a specific language.
++ Comparison of the last NE with the previous ones via TF-IDF to choose the most prominent.
++ Weekly publication of the results on Wikipedia, adding media links to the entities.
 
-*Name Entity Recognizer* - The NER system should be adecuated to each language, training specific models or using pretrained ones. This step is critical, because the quality of this task is going to determine the whole result.
+### Language-dependent Components
 
-*Lemmatizer* - Due to the characteristics of Basque language, we choose to add a lemmatizer to avoid declension on named entities. In Basque language even named entities have inflectional changes, rare chararasteristic that may not happen in other languages. So, the lemmataizer should be can be activated only in languages that declension occurs in named entities. 
+Our system has originally been developed for Basque, although it can be adapted by modifying the Data Mining module (erauzlea.py). The following steps are required :  
+
++ **Media RSS feeds**: Add the RSS addresses of interest.
+
++ **Name Entity tagger** : A NER model trained with the [Flair system](https://github.com/flairNLP/flair) is required to perform the entity extraction.
++ **Lemmatizer**: We employ a neural-based contextual lemmatizer trained with the [Flair system](https://github.com/flairNLP/flair). This is required if your language of interest includes declension in the named entities. For languages without inflected named entities, this step can be avoided.
+
+## Contact
+
+Joseba Fernandez de Landa (joseba.fernandezdelanda@ehu.eus)
+Rodrigo Agerri (rodrigo.agerri@ehu.eus)
+HiTZ Center - Ixa, University of the Basque Country UPV/EHU
