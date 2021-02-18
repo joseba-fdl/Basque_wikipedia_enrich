@@ -31,6 +31,6 @@ Our system has originally been developed for Basque, although it can be adapted 
 
 ## Contact
 
-Joseba Fernandez de Landa (joseba.fernandezdelanda@ehu.eus)
-Rodrigo Agerri (rodrigo.agerri@ehu.eus)
++ Joseba Fernandez de Landa (joseba.fernandezdelanda@ehu.eus)
++ Rodrigo Agerri (rodrigo.agerri@ehu.eus)
 HiTZ Center - Ixa, University of the Basque Country UPV/EHU
