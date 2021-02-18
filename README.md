@@ -29,6 +29,10 @@ Our system has originally been developed for Basque, although it can be adapted 
 + **Name Entity tagger** : A NER model trained with the [Flair system](https://github.com/flairNLP/flair) is required to perform the entity extraction.
 + **Lemmatizer**: We employ a neural-based contextual lemmatizer trained with the [Flair system](https://github.com/flairNLP/flair). This is required if your language of interest includes declension in the named entities. For languages without inflected named entities, this step can be avoided.
 
+### Instalation
+
+See [dependencies.txt](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/dependencies.txt)
+
 ## Contact
 
 Joseba Fernandez de Landa (joseba.fernandezdelanda@ehu.eus)
