@@ -14,8 +14,8 @@ from syntok.tokenizer import Tokenizer
 import syntok.segmenter as segmenter
 # 3 fitxategi hauek MODELS karpetatik hartu:
 from models.get_ses_affixes import _apply_lemma_rule
-nerTagger = flair.models.SequenceTagger.load("models/best-model.pt")
-lemmatizer = flair.models.SequenceTagger.load("models/eu-lemma-sigmorphon2019.pt")
+nerTagger = flair.models.SequenceTagger.load("./models/best-model.pt")
+lemmatizer = flair.models.SequenceTagger.load("./models/eu-lemma-sigmorphon2019.pt")
 
 
 def garbiketa(text1): # CLEANING
