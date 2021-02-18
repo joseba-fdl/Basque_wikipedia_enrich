@@ -31,7 +31,8 @@ Our system has originally been developed for Basque, although it can be adapted 
 
 ### Instalation
 
-See [dependencies.txt](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/dependencies.txt)
++ See [dependencies.md](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/dependencies.md) for a general description.
++ Python dependencies in the [requirements.txt file](https://github.com/joseba-fdl/Basque_wikipedia_enrich/edit/main/requirements.txt)
 
 ## Contact
 
