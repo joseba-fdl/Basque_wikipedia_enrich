@@ -9,10 +9,10 @@ import collections
 import xml.etree.ElementTree as ET
 
 import argparse
-parser = argparse.ArgumentParser(description="Indicate de ")
+parser = argparse.ArgumentParser(description="Indicate locations")
 parser.add_argument('-ner_tagger','--nermodeldir',  default="./models/best-model.pt", type=str,help='specify NER tagger model directory and file')
 parser.add_argument('-lemmatizer','--lemmamodeldir',default="./models/eu-lemma-sigmorphon2019.pt", type=str,help='specify lemmatizer model directory and file')
-parser.add_argument('-msm',       '--msmdir',       default="../MSM/", type=str,help='specify MSM directory and file')
+parser.add_argument('-msm',       '--msmdir',       default="../MSM/", type=str,help='specify MSM directory')
 parser.add_argument('-rss',       '--rssurldir',    default="./rss_urls.txt", type=str,help='specify RSS url list directory and file')
 parsed_arguments = parser.parse_args()
 
