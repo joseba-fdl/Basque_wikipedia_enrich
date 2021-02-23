@@ -36,7 +36,11 @@ Our system has originally been developed for Basque, although it can be adapted 
 
 ### Getting started
 
++ Run the scripts with the --help parameter for more details about the arguments expected by each of the programs. Without arguments, a specific directory structure is required.
++ **NOTE**: Before running the bistaraketa.py program, the erauzlea.py program should run for a couple of weeks at least. This is to make sure that there is sufficient data for the visualization to work.
+
 python3 erauzlea.py
+
 python3 bistaraketa.py
 
 ## Contact
