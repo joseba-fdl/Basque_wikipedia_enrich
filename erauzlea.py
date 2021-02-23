@@ -106,7 +106,7 @@ while True:
         print(">>> ERAUZKETA >>> "+str(t.hour)+":"+str(t.minute))
 
         #### ERAUZLEA ####
-        bidea_erauzle =arsed_arguments.msmdir # "../MSM/" # MSM Crawler folder
+        bidea_erauzle =parsed_arguments.msmdir # "../MSM/" # MSM Crawler folder
         fitxategia1="zaborra/out_msm.xml"
 
         ## Choosen media RSS feeds ##
