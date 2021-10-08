@@ -256,7 +256,7 @@ while True:
                 egunkari=item[0]
                 data=item[1]
                 lang=item[2]    
-                terminoak=NER_eus(item[4])
+                per,org,loc=NER_eus(item[4])
                 ## GORDE ## [egunkari/data/lang/albiste_url/per/org/loc]
                 df_berri = pd.DataFrame([[egunkari,data,lang,albiste_url,per,org,loc]]) # lerroka gorde
                 df_berri.to_csv(corpusa_ter, mode='a', sep='\t', header=False, index=False)
