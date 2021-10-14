@@ -147,122 +147,120 @@ def NER_eus(input_testua):
 
 
 ### MAIN LOOP ###
-while True:
-    ##### NOTIZIAK ERAUZI ETA GORDE -> komunikabide_corpusa.tsv #####
-    t=datetime.datetime.now().time()
-    if (t.hour==10 or t.hour==14 or t.hour==18 or t.hour==22)and(t.minute==0):
-        print(">>> ERAUZKETA >>> "+str(t.hour)+":"+str(t.minute))
+##### NOTIZIAK ERAUZI ETA GORDE -> komunikabide_corpusa.tsv #####
+t=datetime.datetime.now().time()
+print(">>> ERAUZKETA >>> "+str(t.hour)+":"+str(t.minute))
 
-        #### ERAUZLEA ####
-        bidea_erauzle =parsed_arguments.msmdir # "../MSM/" # MSM Crawler folder
-        fitxategia1="zaborra/out_msm.xml"
+#### ERAUZLEA ####
+bidea_erauzle =parsed_arguments.msmdir # "../MSM/" # MSM Crawler folder
+fitxategia1="zaborra/out_msm.xml"
 
-        ## Choosen media RSS feeds ##
-        with open(parsed_arguments.rssurldir) as rss_urls_fitx:
-            RSSURLS = [line.rstrip('\n') for line in rss_urls_fitx]
+## Choosen media RSS feeds ##
+with open(parsed_arguments.rssurldir) as rss_urls_fitx:
+    RSSURLS = [line.rstrip('\n') for line in rss_urls_fitx]
 
-        ## MSM CALL ##
-        os.system("java -jar "+bidea_erauzle+"target/MSM-1.3.8.jar feed -c "+bidea_erauzle+"config.cfg -u '"+','.join(RSSURLS)+"' -s stout > "+fitxategia1)
-        print(">>> ERAUZKETA >>> "+str(t.hour)+":"+str(t.minute))
+## MSM CALL ##
+os.system("java -jar "+bidea_erauzle+"target/MSM-1.3.8.jar feed -c "+bidea_erauzle+"config.cfg -u '"+','.join(RSSURLS)+"' -s stout > "+fitxategia1)
+print(">>> ERAUZKETA >>> "+str(t.hour)+":"+str(t.minute))
 
-        # Xml atxigarri bat sortzeko, bestela ezin da irakurri
-        with open(fitxategia1,"r+") as fp:
-            lines = fp.readlines() # read old content
-            fp.seek(0) # go back to the beginning of the file
-            fp.write("<docs>\n") # write new content at the TOP
-            for line in lines: # write old content after new
-                line=re.sub("<{2,}"," ",line)
-                line=re.sub(">{2,}"," ",line)
-                fp.write(line)
-            fp.write("</docs>") # write new content at the END
+# Xml atxigarri bat sortzeko, bestela ezin da irakurri
+with open(fitxategia1,"r+") as fp:
+    lines = fp.readlines() # read old content
+    fp.seek(0) # go back to the beginning of the file
+    fp.write("<docs>\n") # write new content at the TOP
+    for line in lines: # write old content after new
+        line=re.sub("<{2,}"," ",line)
+        line=re.sub(">{2,}"," ",line)
+        fp.write(line)
+    fp.write("</docs>") # write new content at the END
 
-        #### GARBIKETA ETA BILTOKIRATZEA ####
-        corpusa="data/komunikabide_corpusa.tsv"   #### CORPUSA ####
-        corpusa_exists = os.path.isfile(corpusa)
-        if not corpusa_exists:
-            with open(corpusa,'w') as csvfile: csvfile.writelines("egunkari\tdata\tlang\ttitularra\ttestua\talbiste_url")
-        
-        with open(fitxategia1) as fp:    
-            soup = BeautifulSoup(fp, 'xml')    
-            datu_guztiak=[]
-            df_zaharra=pd.read_csv(corpusa, sep='\t')
-            url_daudenak=df_zaharra.iloc[:,5].values
-    
-            for item in soup.find_all('doc'):
-                ### artikulu bakoitza .tsv formatuan gorde: [egunkari/data/lang/titularra/testua/albiste_url] ###
-                ## url ## konprobatu ea badagoen datubasean ##
-                errepikatu_gabe=True
-                albiste_url=item.find_all('url')[0].text
-                for url_zahar in url_daudenak:
-                    if albiste_url==url_zahar:
-                        errepikatu_gabe=False
-                        break
-            
-                if errepikatu_gabe:
-                    ## testua ##
-                    testua=garbiketa(item.find_all('text')[0].text)
-                    ## egunkari mota ##
-                    egunkari=egunkari_mota(albiste_url)
-                    ## titularra ##
-                    titularra=item.find_all('title')[0].text
-                    ## data ##
-                    data=item.find_all('date')[0].text
+#### GARBIKETA ETA BILTOKIRATZEA ####
+corpusa="data/komunikabide_corpusa.tsv"   #### CORPUSA ####
+corpusa_exists = os.path.isfile(corpusa)
+if not corpusa_exists:
+    with open(corpusa,'w') as csvfile: csvfile.writelines("egunkari\tdata\tlang\ttitularra\ttestua\talbiste_url")
 
-                    # Testurik ez badago albistea deskartatu #
-                    if testua:               
-                        ## hizkunzta ##
-                        # Naizen > artikuluen hizkuntza atera | Besteak euskaraz daude denak
-                        if egunkari=='naiz':
-                            if detect(testua) == "es": lang="es"
-                            elif detect(testua) == "fr": lang="fr"
-                            else: lang="eu"
-                        else: lang=item.find_all('lang')[0].text
-                        ## GORDE ##
-                        datu_guztiak.append([egunkari,data,lang,titularra,testua,albiste_url])
+with open(fitxategia1) as fp:    
+    soup = BeautifulSoup(fp, 'xml')    
+    datu_guztiak=[]
+    df_zaharra=pd.read_csv(corpusa, sep='\t')
+    url_daudenak=df_zaharra.iloc[:,5].values
 
-            print("Berri:"+str(len(datu_guztiak))+"  Zeudenak:"+str(len(url_daudenak)))
-            ### Data Framea sortu ###
-            df = pd.DataFrame(datu_guztiak)
-            ### GORDE HEMEN >> komunikabide_corpusa.tsv ###
-            df.to_csv(corpusa, mode='a', sep='\t', header=False, index=False)  
+    for item in soup.find_all('doc'):
+        ### artikulu bakoitza .tsv formatuan gorde: [egunkari/data/lang/titularra/testua/albiste_url] ###
+        ## url ## konprobatu ea badagoen datubasean ##
+        errepikatu_gabe=True
+        albiste_url=item.find_all('url')[0].text
+        for url_zahar in url_daudenak:
+            if albiste_url==url_zahar:
+                errepikatu_gabe=False
+                break
+
+        if errepikatu_gabe:
+            ## testua ##
+            testua=garbiketa(item.find_all('text')[0].text)
+            ## egunkari mota ##
+            egunkari=egunkari_mota(albiste_url)
+            ## titularra ##
+            titularra=item.find_all('title')[0].text
+            ## data ##
+            data=item.find_all('date')[0].text
+
+            # Testurik ez badago albistea deskartatu #
+            if testua:               
+                ## hizkunzta ##
+                # Naizen > artikuluen hizkuntza atera | Besteak euskaraz daude denak
+                if egunkari=='naiz':
+                    if detect(testua) == "es": lang="es"
+                    elif detect(testua) == "fr": lang="fr"
+                    else: lang="eu"
+                else: lang=item.find_all('lang')[0].text
+                ## GORDE ##
+                datu_guztiak.append([egunkari,data,lang,titularra,testua,albiste_url])
+
+    print("Berri:"+str(len(datu_guztiak))+"  Zeudenak:"+str(len(url_daudenak)))
+    ### Data Framea sortu ###
+    df = pd.DataFrame(datu_guztiak)
+    ### GORDE HEMEN >> komunikabide_corpusa.tsv ###
+    df.to_csv(corpusa, mode='a', sep='\t', header=False, index=False)  
 
 
 
-        ##### komunikabide_corpusa.tsv tik-> IZEN ENTITATEAK ERAUZI ETA GORDE -> termino_corpusa.tsv #####
+##### komunikabide_corpusa.tsv tik-> IZEN ENTITATEAK ERAUZI ETA GORDE -> termino_corpusa.tsv #####
 
-        #### CORPUSA IRAKURRI ####
-        corpusa="data/komunikabide_corpusa.tsv" #### CORPUSA ####
-        #irakurtzeko [egunkari/data/lang/titularra/testua/albiste_url]
-        df_1=pd.read_csv(corpusa, sep='\t')
+#### CORPUSA IRAKURRI ####
+corpusa="data/komunikabide_corpusa.tsv" #### CORPUSA ####
+#irakurtzeko [egunkari/data/lang/titularra/testua/albiste_url]
+df_1=pd.read_csv(corpusa, sep='\t')
 
-        ## termino corpusa ##
-        corpusa_ter="data/termino_corpusa.tsv" #### termino CORPUSA ####
-        #irakurtzeko [egunkari/data/lang/albiste_url/per/org/loc]
-        corpusa_ter_exists = os.path.isfile(corpusa_ter) # ez balego, sortu
-        if not corpusa_ter_exists:
-            with open(corpusa_ter,'w') as csvfile: csvfile.writelines("egunkari\tdata\tlang\talbiste_url\tper\torg\tloc")
-            
-        
-        dft=pd.read_csv(corpusa_ter, sep='\t')
-        url_aztertuak=list(dft['albiste_url'])
+## termino corpusa ##
+corpusa_ter="data/termino_corpusa.tsv" #### termino CORPUSA ####
+#irakurtzeko [egunkari/data/lang/albiste_url/per/org/loc]
+corpusa_ter_exists = os.path.isfile(corpusa_ter) # ez balego, sortu
+if not corpusa_ter_exists:
+    with open(corpusa_ter,'w') as csvfile: csvfile.writelines("egunkari\tdata\tlang\talbiste_url\tper\torg\tloc")
 
-        ## Corpusetik atera interesatzen zaigun testua (euskaraz,...)##
-        # euskarazko artikuluen testua ##
-        euskarazko_artikuluak=df_1.loc[df_1['lang'] == 'eu']
-        for item in euskarazko_artikuluak.values:
-            #[egunkari/data/lang/titularra/testua/albiste_url]
-            albiste_url=item[5]
-            if albiste_url not in url_aztertuak:
-                egunkari=item[0]
-                data=item[1]
-                lang=item[2]    
-                per,org,loc=NER_eus(item[4])
-                ## GORDE ## [egunkari/data/lang/albiste_url/per/org/loc]
-                df_berri = pd.DataFrame([[egunkari,data,lang,albiste_url,per,org,loc]]) # lerroka gorde
-                df_berri.to_csv(corpusa_ter, mode='a', sep='\t', header=False, index=False)
-                print(albiste_url)
 
-        print("####  ENTZUKETA EGINA! ITXOITEN  ####")
+dft=pd.read_csv(corpusa_ter, sep='\t')
+url_aztertuak=list(dft['albiste_url'])
+
+## Corpusetik atera interesatzen zaigun testua (euskaraz,...)##
+# euskarazko artikuluen testua ##
+euskarazko_artikuluak=df_1.loc[df_1['lang'] == 'eu']
+for item in euskarazko_artikuluak.values:
+    #[egunkari/data/lang/titularra/testua/albiste_url]
+    albiste_url=item[5]
+    if albiste_url not in url_aztertuak:
+        egunkari=item[0]
+        data=item[1]
+        lang=item[2]    
+        per,org,loc=NER_eus(item[4])
+        ## GORDE ## [egunkari/data/lang/albiste_url/per/org/loc]
+        df_berri = pd.DataFrame([[egunkari,data,lang,albiste_url,per,org,loc]]) # lerroka gorde
+        df_berri.to_csv(corpusa_ter, mode='a', sep='\t', header=False, index=False)
+        print(albiste_url)
+
+print("####  ENTZUKETA EGINA! ITXOITEN  ####")
 
 
 
