@@ -510,8 +510,6 @@ page.save(sarrera+"\n"+asteak_bistan+desplegablea) # Textua eguneratu
 asteguna=1
 
 scattertext() ## SORTU SCATTERTEXT BISUALIZAZIOA ##
-
-time.sleep(5*60)
         
 
 
