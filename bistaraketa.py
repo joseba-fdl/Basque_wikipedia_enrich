@@ -462,63 +462,57 @@ def scattertext():
 
 
 ##### MAIN LOOP #####
-asteguna=7 # (astelehena 8:05tik aurrera asteguna=1; and so on)
-while True:
-    t=datetime.datetime.now().time()
-    if t.hour==8 and t.minute==0: #if t.hour==8 and t.minute==0:
-        if asteguna==7:
-            ####  asteko IE zerrenda eguneratu, 'ie_denak.csv' fitxategira lerro bat gehituz. Asteleheenero 8tan.  ####
-            asteko_entitate_zerrenda_eguneratua() # deskonektatu daiteke           
 
-            import itertools            
-            import mwclient 
-            site = mwclient.Site('eu.wikipedia.org')
-            site.login(WIKIPEDIA_KONTUA,WIKIPEDIA_PASAHITZA)
-            page = site.Pages['Wikiproiektu:Euskarazko albisteetako Izen Entitateak'] # Orria kargatu
-            text=page.text() 
+####  asteko IE zerrenda eguneratu, 'ie_denak.csv' fitxategira lerro bat gehituz. Astean behin deitu, astelehen goizean goiz.  ####
+asteko_entitate_zerrenda_eguneratua() # deskonektatu daiteke           
 
-            sarrera="\n==  Sarrera  ==\
-                    \nHemen topatuko duzun edukia, euskaraz argitaratzen duten hainbat hedabide digitaletatik erauzia dago. Euskarazko albiste bakoitzaren pertsonen izen entitateak automatikoki jaso dira, asteko pertsonaia aipatuenak zentzuk diren erakusteko aukera emanez. Astelehenero, pasa den asteko 10 entitate nabarmenenak automatikoki publikatuko dira. Horretarako, azkeneko asteko izen entitateak bestelako izen entitate guztiekin konparatzen dira, berrienak direnak aukeratuz. Azkeneko lau asteetako pertsonaiak etengabe eguneratzen joango dira eta zaharragoak direnak bukaerako menu zabalgarrian gordeta geratuko dira. Horrez gain, bistaraketa interaktibo bat sortu da, pertsonaia berri zein ohikoen arteko erlazioak erakusten dituena.\
-                    \n===  Metodologia  === \
-                    \nLan honen sorkuntzan erabilitako metodologiak hainbat pausu ditu: hedabide digitalen identifikazioa, hedabideen entzuketa bitartez albisteak jasotzea, albisteetatik izen entitateak erauztea eta azkeneko astean nabarmenak izan diren entitateen aukeraketa.\
-                    \n\n* '''Euskarazko hedabideen eskuzko identifikazioa''': Euskal Herrian euskaraz aritzen diren 8 komunikabide digital identifikatu dira.\
-                    \n\n* '''Hedabideen entzuketa''': MSM crawlerra erabili da hedabideen [[RSS|RSS]] loturak jasotzeko. Hedabide ezberdinetatik berri jarioa jaso, garbitu eta gorde da corpus batean. Jasotako albiste bakoitzetik egunkaria, data, hizkuntza, titularra, edukia eta lotura gorde dira.\
-                    \n\n* '''Izen entitateen erauzketa''': Lehenik eta behin, entzuketan euskarazko, gaztelerazko eta frantsesezko albisteak lortzen direnez, soilik euskarazko albisteak aukeratuko dira, beste guztiak alboratuz. Euskarazko albiste bakoitzaren edukia tokenizatu, lematizatu eta izen entitateen detektoreaz aztertu da. Hiru fase hauetatik eratorritako entitate izendunak jaso ostean, albiste bakoitzaren izen entitateak gorde dira.\
-                    \n\n* '''Izen entitateen aukeraketa''': Euskarazko albiste guztietatik, izen entitate berrienak eta nabarmenenak aukeratzeko [[Tf–idf|tf-idf]] banaketan oinarritu gara. Banaketa horri esker, azkeneko asteko izen entitateak beste guztiekin konparatzen dira, ohikoak diren izen entitateak alboratu eta azkeneko astean nabarmenak direnak jasotzeko asmoz.\
-                    \n===  Esteka interaktiboa  === \
-                    \n\nAstero adierazgarrienak diren Izen Entitateak aurkitzeaz gain, interesgarria iruditu zaigu bistaraketa berezi bat proposatzea izen entitateen maiztasuna eta berritasuna haintzat hartzen dituena. Scattertext teknikari esker, izen entitate berrienak nabarmendu ahalko ditugu zaharrenetatik. Horrez gain izen entitate aipatuenak eta gutxi aipatuenen arteko ezberdintasuna ikusi ahal izango da aldi berean. Adierazpen grafiko hau egunero berrituko da, iragandako 7 egunetako datuak eta azkeneko hilabeteko datuak konparatuta, izen entitateak sailkatu eta agerpenen iturria ikusteko aukera emanez.\
-                    \n\nBistaraketaren adierazpen grafikoan izen entitateen banaketa topatu dezakegu, denboraren eta agerpen kopuruaren arabera. Era honetan, bi dimentsioetako grafikoaren goiko erdian estitate berri eta ohikoenak topatu ditzakegu. Aldi berean, grafikoaren eskubi aldean estitate zahar ohikoenak topatuko dira. Halaber, entitate berri aipatuenak grafikako goiko eskubiko koadrantean aurkitu ahal izango ditugu, azkeneko astean aipatuenak izan diren entitateak izango dira hauek. Bestalde, ezkerreko goiko koadrantean beti aipatuak diren entitateak kokatuko dira, hau da, ohikoenak. Eskubiko beheko koadrantean, ostera, albiste zaharretan ohikoak izan diren eta albiste berrietan agerpen txikia daukatenak azaltzen dira.\
-                    \n\nBistaratze sistema honek izen entitateen bilatzaile bat dauka ere, entitatea grafikoan kokatzeaz gain, bere agerpen guztiak emango dizkigu. Agerpenetan egunkaria, eguna, albistera lotura eta albistean agertzen diren bestelako entitateak edukiko ditugu. Era honetan, entitate bakoitzaren informazio ahalik eta osatuena lortuko dugu, bere agerpenen testuingurua erakutsiko duen bistaratze bat eskainiz.\
-                    \n\n [http://ESTEKA MAPA INTERAKTIBORA ESTEKA]"
+import itertools            
+import mwclient 
+site = mwclient.Site('eu.wikipedia.org')
+site.login(WIKIPEDIA_KONTUA,WIKIPEDIA_PASAHITZA)
+page = site.Pages['Wikiproiektu:Euskarazko albisteetako Izen Entitateak'] # Orria kargatu
+text=page.text() 
 
-            #csv-a irakurri
-            df_ie_guztiak=pd.read_csv('data/ie_denak.csv', header=None)
-            print(df_ie_guztiak)
-            # 4 aste berrienak aukeratu bistan jartzeko. 
-            lauaste=df_ie_guztiak[-4:].iloc[::-1] # reverse = .iloc[::-1]
-            asteak_bistan=""
-            for index,item in lauaste.iterrows():
-                asteak_bistan+="\n==  "+item[0]+"ko asteko izen entitateak  =="
-                asteak_bistan+="\n\n"+taulak_ieekin(item[1:11]) ##### TAULAK #####    
+sarrera="\n==  Sarrera  ==\
+        \nHemen topatuko duzun edukia, euskaraz argitaratzen duten hainbat hedabide digitaletatik erauzia dago. Euskarazko albiste bakoitzaren pertsonen izen entitateak automatikoki jaso dira, asteko pertsonaia aipatuenak zentzuk diren erakusteko aukera emanez. Astelehenero, pasa den asteko 10 entitate nabarmenenak automatikoki publikatuko dira. Horretarako, azkeneko asteko izen entitateak bestelako izen entitate guztiekin konparatzen dira, berrienak direnak aukeratuz. Azkeneko lau asteetako pertsonaiak etengabe eguneratzen joango dira eta zaharragoak direnak bukaerako menu zabalgarrian gordeta geratuko dira. Horrez gain, bistaraketa interaktibo bat sortu da, pertsonaia berri zein ohikoen arteko erlazioak erakusten dituena.\
+        \n===  Metodologia  === \
+        \nLan honen sorkuntzan erabilitako metodologiak hainbat pausu ditu: hedabide digitalen identifikazioa, hedabideen entzuketa bitartez albisteak jasotzea, albisteetatik izen entitateak erauztea eta azkeneko astean nabarmenak izan diren entitateen aukeraketa.\
+        \n\n* '''Euskarazko hedabideen eskuzko identifikazioa''': Euskal Herrian euskaraz aritzen diren 8 komunikabide digital identifikatu dira.\
+        \n\n* '''Hedabideen entzuketa''': MSM crawlerra erabili da hedabideen [[RSS|RSS]] loturak jasotzeko. Hedabide ezberdinetatik berri jarioa jaso, garbitu eta gorde da corpus batean. Jasotako albiste bakoitzetik egunkaria, data, hizkuntza, titularra, edukia eta lotura gorde dira.\
+        \n\n* '''Izen entitateen erauzketa''': Lehenik eta behin, entzuketan euskarazko, gaztelerazko eta frantsesezko albisteak lortzen direnez, soilik euskarazko albisteak aukeratuko dira, beste guztiak alboratuz. Euskarazko albiste bakoitzaren edukia tokenizatu, lematizatu eta izen entitateen detektoreaz aztertu da. Hiru fase hauetatik eratorritako entitate izendunak jaso ostean, albiste bakoitzaren izen entitateak gorde dira.\
+        \n\n* '''Izen entitateen aukeraketa''': Euskarazko albiste guztietatik, izen entitate berrienak eta nabarmenenak aukeratzeko [[Tf–idf|tf-idf]] banaketan oinarritu gara. Banaketa horri esker, azkeneko asteko izen entitateak beste guztiekin konparatzen dira, ohikoak diren izen entitateak alboratu eta azkeneko astean nabarmenak direnak jasotzeko asmoz.\
+        \n===  Esteka interaktiboa  === \
+        \n\nAstero adierazgarrienak diren Izen Entitateak aurkitzeaz gain, interesgarria iruditu zaigu bistaraketa berezi bat proposatzea izen entitateen maiztasuna eta berritasuna haintzat hartzen dituena. Scattertext teknikari esker, izen entitate berrienak nabarmendu ahalko ditugu zaharrenetatik. Horrez gain izen entitate aipatuenak eta gutxi aipatuenen arteko ezberdintasuna ikusi ahal izango da aldi berean. Adierazpen grafiko hau egunero berrituko da, iragandako 7 egunetako datuak eta azkeneko hilabeteko datuak konparatuta, izen entitateak sailkatu eta agerpenen iturria ikusteko aukera emanez.\
+        \n\nBistaraketaren adierazpen grafikoan izen entitateen banaketa topatu dezakegu, denboraren eta agerpen kopuruaren arabera. Era honetan, bi dimentsioetako grafikoaren goiko erdian estitate berri eta ohikoenak topatu ditzakegu. Aldi berean, grafikoaren eskubi aldean estitate zahar ohikoenak topatuko dira. Halaber, entitate berri aipatuenak grafikako goiko eskubiko koadrantean aurkitu ahal izango ditugu, azkeneko astean aipatuenak izan diren entitateak izango dira hauek. Bestalde, ezkerreko goiko koadrantean beti aipatuak diren entitateak kokatuko dira, hau da, ohikoenak. Eskubiko beheko koadrantean, ostera, albiste zaharretan ohikoak izan diren eta albiste berrietan agerpen txikia daukatenak azaltzen dira.\
+        \n\nBistaratze sistema honek izen entitateen bilatzaile bat dauka ere, entitatea grafikoan kokatzeaz gain, bere agerpen guztiak emango dizkigu. Agerpenetan egunkaria, eguna, albistera lotura eta albistean agertzen diren bestelako entitateak edukiko ditugu. Era honetan, entitate bakoitzaren informazio ahalik eta osatuena lortuko dugu, bere agerpenen testuingurua erakutsiko duen bistaratze bat eskainiz.\
+        \n\n [http://ESTEKA MAPA INTERAKTIBORA ESTEKA]"
+
+#csv-a irakurri
+df_ie_guztiak=pd.read_csv('data/ie_denak.csv', header=None)
+print(df_ie_guztiak)
+# 4 aste berrienak aukeratu bistan jartzeko. 
+lauaste=df_ie_guztiak[-4:].iloc[::-1] # reverse = .iloc[::-1]
+asteak_bistan=""
+for index,item in lauaste.iterrows():
+    asteak_bistan+="\n==  "+item[0]+"ko asteko izen entitateak  =="
+    asteak_bistan+="\n\n"+taulak_ieekin(item[1:11]) ##### TAULAK #####    
                     
-            ### BESTELAKO ASTEAK DESPLEGABLEAN ###
-            if len(df_ie_guztiak)>4:
-                besteaste=df_ie_guztiak[:-4].iloc[::-1] # reverse = .iloc[::-1]
-                desplegablea='\n==  Bestelakoak  ==\n{| class="wikitable mw-collapsible mw-collapsed"\n|- style="white-space: nowrap;"\n! Aurreko asteetako izen entitateak\n|-\n'
-                # ieak gehitu lista desplegablera #
-                for index,item in besteaste.iterrows():                
-                    desplegablea+="\n\n"+taulak_ieekin_desplegable_2(item) ##### TAULA DESPLEGABLEAK #####
-                desplegablea+="|}"
+### BESTELAKO ASTEAK DESPLEGABLEAN ###
+if len(df_ie_guztiak)>4:
+    besteaste=df_ie_guztiak[:-4].iloc[::-1] # reverse = .iloc[::-1]
+    desplegablea='\n==  Bestelakoak  ==\n{| class="wikitable mw-collapsible mw-collapsed"\n|- style="white-space: nowrap;"\n! Aurreko asteetako izen entitateak\n|-\n'
+    # ieak gehitu lista desplegablera #
+    for index,item in besteaste.iterrows():                
+        desplegablea+="\n\n"+taulak_ieekin_desplegable_2(item) ##### TAULA DESPLEGABLEAK #####
+    desplegablea+="|}"
                 
-            page.save(sarrera+"\n"+asteak_bistan+desplegablea) # Textua eguneratu
-            asteguna=1
+page.save(sarrera+"\n"+asteak_bistan+desplegablea) # Textua eguneratu
+asteguna=1
 
-            scattertext() ## SORTU SCATTERTEXT BISUALIZAZIOA ##
+scattertext() ## SORTU SCATTERTEXT BISUALIZAZIOA ##
 
-            time.sleep(5*60)
+time.sleep(5*60)
         
-        else:
-            asteguna+=1
-            time.sleep(5*60)
+
 
 
