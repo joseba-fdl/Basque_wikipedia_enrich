@@ -509,7 +509,7 @@ if len(df_ie_guztiak)>4:
 page.save(sarrera+"\n"+asteak_bistan+desplegablea) # Textua eguneratu
 asteguna=1
 
-scattertext() ## SORTU SCATTERTEXT BISUALIZAZIOA ##
+#scattertext() ## SORTU SCATTERTEXT BISUALIZAZIOA ##
         
 
 
